@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>REST API PRACTICE</title>
+
+<!-- Bootwatches Flatly Theme -->
+<link href="https://bootswatch.com/4/flatly/bootstrap.min.css" rel="stylesheet">
+
+<!-- Fonts Awesome-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" 
+  integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+<link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0; padding: 0;
+    font-family: 'Do Hyeon', sans-serif;
+  }
+  #app {
+    height: auto;
+    background-image: url('./assets/background.jpg');
+  }
+  .container {
+    position: relative;
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+  .recipes-create-form {
+    margin-top: 30px;
+  }
+  .recipes-read-form {
+    margin-bottom: 30px;
+    padding: 0 10px;
+  }
+  .page-header {
+    padding: 0 5px;
+  }
+  .section-header {
+    margin-bottom: 25px;
+  }
+  .btn-save {
+    display: block;
+    margin-top: 25px;
+  }
+  .btn-search {
+    margin-left: 20px;
+  }
+  .form-inline {
+    margin-bottom: 20px;
+  }
+  .list-group-item {
+    position: relative;
+    margin-top: 0;
+  }
+  .list-group-item-search {
+    margin-bottom: 50px;
+  }
+  .item-text {
+    margin: 0;
+    padding: 10px;
+
+    color: #232;
+    font-size: 18px;
+    font-weight: 400;
+  }
+  .item-update {
+    position: absolute;
+    bottom: 20px; right: 70px;
+
+    font-size: 21px;
+
+    cursor: pointer;
+  }
+  .item-delete {
+    position: absolute;
+    bottom: 0px; right: 30px;
+
+    font-size: 42px;
+
+    cursor: pointer;
+  }
+  .highlight {
+    color: #18BC9C;
+    font-weight: 500;
+  }
+
+  .modal-container {
+    position: absolute;
+    top: 0; left: 0;
+  }
+  .modal-show {
+    display: block;
+  }
+</style>
+
+<!-- Vue.js & Axios -->
+<script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+  <!-- 메인 컨테이너 -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="page-header">
+          <h1>My Recipes</h1>
+        </div>
+        <div class="recipes-create-form jumbotron">
+          <h2 class="section-header">Add your recipe</h2>
+          <div class="form-group">
+            <label class="col-form-label col-form-label-lg" 
+              for="inputLarge">Food Name</label>
+            <input class="form-control form-control-lg" 
+              v-model="food"
+              type="text"
+              placeholder="your unique recipe" 
+              id="inputLarge">
+          </div>
+          <div class="form-group">
+            <label class="col-form-label col-form-label-lg" 
+              for="inputLarge">Main Ingradients</label>
+            <input class="form-control form-control-lg" 
+              v-model="ingradients"
+              type="text"
+              placeholder="ex) all purposes flour 3 cups" 
+              id="inputLarge">
+          </div>
+          <div class="form-group">
+            <label class="col-form-label col-form-label-lg" 
+              for="inputLarge">Cook Level</label>
+            <input class="form-control form-control-lg" 
+              v-model="level"
+              @keyup.enter="saveRecipe"
+              type="text"
+              placeholder="score max=5.0, min=0" 
+              id="inputLarge">
+          </div>
+          <button type="button" 
+            @click="saveRecipe"
+            class="btn btn-primary btn-lg btn-save">Save</button>
+        </div>
+        <div class="recipes-read-form">
+          <h2 class="section-header">Search your recipe</h2>
+          <div class="form-inline">
+            <input class="form-control form-control-lg" 
+              v-model="search.request"
+              @keyup.enter="searchRecipe"
+              type="text"
+              placeholder="please input food name :)" 
+              id="inputLarge">
+            <button class="btn btn-success btn-lg btn-search"
+              @click="searchRecipe"
+              type="button">search</button>
+          </div>
+          <li v-if="search.response"
+            class="list-group-item list-group-item-action">
+            <p class="item-text"><span class="highlight">Food :</span> {{ search.response.food }}</p>
+            <p class="item-text"><span class="highlight">Main Ingradients :</span> {{ search.response.ingradients }}</p>
+            <p class="item-text"><span class="highlight">Cook Level :</span> {{ search.response.level }}</p>
+          </li>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="recipes-all">
+          <ul class="list-group">
+            <li v-for="(recipe, index) in recipes"
+              class="list-group-item list-group-item-action">
+              <p class="item-text"><span class="highlight">Food :</span> {{ recipe.food }}</p>
+              <p class="item-text"><span class="highlight">Main Ingradients :</span> {{ recipe.ingradients }}</p>
+              <p class="item-text"><span class="highlight">Cook Level :</span> {{ recipe.level }}</p>
+              <i class="far fa-edit item-update" 
+                @click.stop="editRecipe({ index: index })"></i>
+              <span class="item-delete" @click.stop="deleteRecipe({ index: index })">&#x00D7;</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container modal-container">
+      <div class="row">
+        <div class="modal" :class="{ 'modal-show': modal.show }">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">Edit your recipe</h5>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label class="col-form-label col-form-label-lg" 
+                    for="inputLarge">Food</label>
+                  <input class="form-control form-control-lg" 
+                    type="text"
+                    value="modal.edit.food"
+                    v-model="modal.edit.food">
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label col-form-label-lg" 
+                    for="inputLarge">Ingradients</label>
+                  <input class="form-control form-control-lg" 
+                    type="text"
+                    value="modal.edit.ingradients"
+                    v-model="modal.edit.ingradients">
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label col-form-label-lg" 
+                    for="inputLarge">Level</label>
+                  <input class="form-control form-control-lg" 
+                    type="text"
+                    value="modal.edit.level"
+                    v-model="modal.edit.level">
+                </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" @click.stop="updateRecipe">update</button>
+                  <button type="button" class="btn btn-secondary" @click.stop="cancelRecipe">cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  var _axios = axios;
+
+  var vm = new Vue({
+    el: '#app',
+    data: function () {
+      return {
+        food: '',
+        ingradients: '',
+        level: '',
+        recipes: [],
+        search: {
+          request: '',
+          response: null
+        },
+        modal: {
+          show: false,
+          edit: {
+            food: '',
+            ingradients: '',
+            level: ''
+          },
+          currentIndex: null
+        }
+      }
+    },
+    mounted: function () {
+      var _this = this 
+      _axios.get('/recipes')
+      .then(function (response) {
+        _this.recipes = response.data
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+    },
+    methods: {
+      // show a recipe
+      searchRecipe: function () {
+        if (this.search.request.trim() === '') return
+        var _this = this
+        _axios.get('/recipes/' + _this.search.request)
+        .then(function (response) {
+          if (response.data.error) {
+            _this.search.response = { food: response.data.error }
+          } else {
+            _this.search.response = response.data
+          }
+          _this.search.request = ''
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+      },
+      // create a recipe
+      saveRecipe: function () {
+        if ((this.food.trim() === '' || this.ingradients.trim() === '') || this.level.trim() === '') return
+        var _this = this
+        _axios.post('/recipes', {
+          data: {
+            food: _this.food,
+            ingradients: _this.ingradients,
+            level: _this.level
+          }
+        })
+        .then(function (response) {
+          _this.recipes.push(response.data)
+          _this.food = ''
+          _this.ingradients = ''
+          _this.level = ''
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+      },
+      // edit a recipe
+      editRecipe: function (data) {
+        var index = data.index
+        this.modal.show = !this.modal.show
+        this.modal.edit = Object.assign({}, this.recipes[index])
+        this.modal.currentIndex = index;
+      },
+      // cancel editing
+      cancelRecipe: function () {
+        var props = this.modal.edit
+        this.modal.show = !this.modal.show
+        for (prop in props) {
+          props[prop] = ''
+        }
+        this.modal.currentIndex = null
+      },
+      // update a recipe
+      updateRecipe: function () {
+        var update_data = this.modal.edit
+        if ((update_data.food.trim() === '' || update_data.ingradients.trim() === '') || update_data.level.trim() === '') return
+        var _this = this
+        _axios.put('/recipes/' + _this.modal.currentIndex, {
+          data: {
+            food: update_data.food,
+            ingradients: update_data.ingradients,
+            level: update_data.level
+          }
+        })
+        .then(function (response) {
+          _this.recipes[_this.modal.currentIndex] = response.data
+          _this.cancelRecipe()
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+      },
+      // delete a recipe
+      deleteRecipe: function (data) {
+        var index = data.index
+        var _this = this
+        _axios.delete('/recipes/' + index)
+        .then(function (response) {
+          console.log(response.data)
+          _this.recipes.splice(index, 1)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+      }
+    }
+  })
+</script>
+</body>
+</html>
