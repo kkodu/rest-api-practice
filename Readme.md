@@ -129,7 +129,7 @@ app.listen(3000, function () {
 
 
 
-######인덱스 페이지 접속 
+###### 인덱스 페이지 접속 
 
 ```javascript
 /* URL 입력창에 localhost:3000으로 접속했을 때
@@ -142,7 +142,7 @@ app.get('/', function (req, res) {
 })
 ```
 
-######모든 레시피 조회 (READ)
+###### 모든 레시피 조회 (READ)
 
 ```javascript
 /* HTTP method : GET
@@ -159,7 +159,7 @@ app.get('/recipes', function (req, res) {
 })
 ```
 
-######하나의 레시피 조회 (READ)
+###### 하나의 레시피 조회 (READ)
 
 ```javascript
 /* HTTP method : GET
@@ -186,7 +186,7 @@ app.get('/recipes/:food', function (req, res) {
 })
 ```
 
-######새로운 레시피 추가 (CREATE)
+###### 새로운 레시피 추가 (CREATE)
 
 ```javascript
 /* HTTP method : POST
@@ -259,7 +259,7 @@ app.delete('/recipes/:food', function (req, res) {
 
 #### recipes.json
 
-######* JSON(JavaScript Object Notation)
+###### * JSON(JavaScript Object Notation)
 
 - 자바스크립트 언어로 작성된 가벼운 데이터 형식
 - 클라이언트와 서버 간의 데이터 교환 시에 주로 쓰인다.
@@ -304,7 +304,7 @@ app.delete('/recipes/:food', function (req, res) {
 
 
 
-######\<script> 코드 설명
+###### \<script> 코드 설명
 
 ```javascript
 /* new Vue() => 새로운 Vue 객체를 생성 */
@@ -327,7 +327,7 @@ var vm = new Vue({
 
 
 
-##Axios 작성
+## Axios 작성
 
 * **_this 변수** : 기존의 this는 Vue 객체를 가리키는데, axios 코드 안에서의 this는 axios를 가리키게 된다. 만약 axios 코드 안에서 Vue 객체를 사용하고 싶다면 미리 Vue 객체를 변수에 담아서 사용해야 하는데, 이 때 사용되는 변수가 _this이다.
 * **axios 작성법**
@@ -344,7 +344,7 @@ axios.HTTP_METHOD(URI, [DATA])
 })
 ```
 
-####axios
+#### axios
 
 - HTTP 통신 요청 기능을 제공해주는 axios 객체이다. 
 - CDN을 이용했기 때문에 바로 쓸 수 있다.
@@ -354,12 +354,12 @@ axios.HTTP_METHOD(URI, [DATA])
 - 클라이언트가 서버에 요청 시, 사용할 HTTP 요청 방식이다.
 - 실습에서는 REST API를 사용하므로 GET, POST, PUT, DELETE를 사용한다.
 
-####URI
+#### URI
 
 - 요청 자원을 적어준다. (도메인 주소는 생략)
 - ex) /recipes
 
-####DATA
+#### DATA
 
 - [] 괄호는 옵션을 의미. 안 써줘도 무방
 - 요청 메시지 중 Request Body 안에 담아서 보낼 데이터를 다룬다. (POST, PUT)
@@ -369,7 +369,7 @@ axios.HTTP_METHOD(URI, [DATA])
 - 서버에 성공적으로 요청 시, 실행되는 함수이다.
 - HTTP_METHOD 방식으로 URI 경로로 요청하는 과정에서 에러가 없다면 .then()이 실행된다.
 
-####function (response) {}
+#### function (response) {}
 
 -  서버에서 데이터를 처리한 후 클라이언트로 다시 응답을 해주는데, 이 때 마찬가지로 에러 없이 성공적으로 클라이언트로 응답을 해주면 function (response) 함수가 실행된다.
 - response는 서버에서 응답해주는 객체
@@ -384,9 +384,9 @@ axios.HTTP_METHOD(URI, [DATA])
 
 
 
-##REST API 실습을 위한 클라이언트 코드 작성
+## REST API 실습을 위한 클라이언트 코드 작성
 
-######모든 레시피 데이터 요청
+###### 모든 레시피 데이터 요청
 
 ```javascript
 /* 모든 레시피 조회
