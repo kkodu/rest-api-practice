@@ -7,93 +7,15 @@
 <!-- Bootwatches Flatly Theme -->
 <link href="https://bootswatch.com/4/flatly/bootstrap.min.css" rel="stylesheet">
 
-<!-- Fonts Awesome-->
+<!-- Fonts Awesome -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" 
   integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 
-<link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
+<!-- Google Fonts 'Jua' -->
+<link href="https://fonts.googleapis.com/css?family=Jua" rel="stylesheet">
 
-<style>
-  body {
-    margin: 0; padding: 0;
-    font-family: 'Do Hyeon', sans-serif;
-  }
-  #app {
-    height: auto;
-    background-image: url('./assets/background.jpg');
-  }
-  .container {
-    position: relative;
-    padding-top: 50px;
-    padding-bottom: 50px;
-  }
-  .recipes-create-form {
-    margin-top: 30px;
-  }
-  .recipes-read-form {
-    margin-bottom: 30px;
-    padding: 0 10px;
-  }
-  .page-header {
-    padding: 0 5px;
-  }
-  .section-header {
-    margin-bottom: 25px;
-  }
-  .btn-save {
-    display: block;
-    margin-top: 25px;
-  }
-  .btn-search {
-    margin-left: 20px;
-  }
-  .form-inline {
-    margin-bottom: 20px;
-  }
-  .list-group-item {
-    position: relative;
-    margin-top: 0;
-  }
-  .list-group-item-search {
-    margin-bottom: 50px;
-  }
-  .item-text {
-    margin: 0;
-    padding: 10px;
-
-    color: #232;
-    font-size: 18px;
-    font-weight: 400;
-  }
-  .item-update {
-    position: absolute;
-    bottom: 20px; right: 70px;
-
-    font-size: 21px;
-
-    cursor: pointer;
-  }
-  .item-delete {
-    position: absolute;
-    bottom: 0px; right: 30px;
-
-    font-size: 42px;
-
-    cursor: pointer;
-  }
-  .highlight {
-    color: #18BC9C;
-    font-weight: 500;
-  }
-
-  .modal-container {
-    position: absolute;
-    top: 0; left: 0;
-  }
-  .modal-show {
-    display: block;
-  }
-</style>
+<!-- Main CSS Import -->
+<link href="./stylesheets/main.css" rel="stylesheet">
 
 <!-- Vue.js & Axios -->
 <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
@@ -105,43 +27,46 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6">
+        <!-- 메인 헤더 -->
         <div class="page-header">
           <h1>My Recipes</h1>
         </div>
+        <!-- 레시피 추가 폼 -->
         <div class="recipes-create-form jumbotron">
           <h2 class="section-header">Add your recipe</h2>
           <div class="form-group">
             <label class="col-form-label col-form-label-lg" 
-              for="inputLarge">Food Name</label>
+              for="inputFood">Food Name</label>
             <input class="form-control form-control-lg" 
               v-model="food"
               type="text"
               placeholder="your unique recipe" 
-              id="inputLarge">
+              id="inputFood">
           </div>
           <div class="form-group">
             <label class="col-form-label col-form-label-lg" 
-              for="inputLarge">Main Ingradients</label>
+              for="inputIngradients">Main Ingradients</label>
             <input class="form-control form-control-lg" 
               v-model="ingradients"
               type="text"
               placeholder="ex) all purposes flour 3 cups" 
-              id="inputLarge">
+              id="inputIngradients">
           </div>
           <div class="form-group">
             <label class="col-form-label col-form-label-lg" 
-              for="inputLarge">Cook Level</label>
+              for="inputLevel">Cook Level</label>
             <input class="form-control form-control-lg" 
               v-model="level"
               @keyup.enter="saveRecipe"
               type="text"
-              placeholder="score max=5.0, min=0" 
-              id="inputLarge">
+              placeholder="score max=5.0" 
+              id="inputLevel">
           </div>
           <button type="button" 
             @click="saveRecipe"
             class="btn btn-primary btn-lg btn-save">Save</button>
         </div>
+        <!-- 레시피 검색 폼 -->
         <div class="recipes-read-form">
           <h2 class="section-header">Search your recipe</h2>
           <div class="form-inline">
@@ -149,8 +74,7 @@
               v-model="search.request"
               @keyup.enter="searchRecipe"
               type="text"
-              placeholder="please input food name :)" 
-              id="inputLarge">
+              placeholder="please input food name :)">
             <button class="btn btn-success btn-lg btn-search"
               @click="searchRecipe"
               type="button">search</button>
@@ -163,6 +87,7 @@
           </li>
         </div>
       </div>
+      <!-- 모든 레시피 조회 폼 -->
       <div class="col-md-6">
         <div class="recipes-all">
           <ul class="list-group">
@@ -180,6 +105,7 @@
       </div>
     </div>
   </div>
+  <!-- 모달 컨테이너 -->
   <div class="container modal-container">
       <div class="row">
         <div class="modal" :class="{ 'modal-show': modal.show }">
@@ -190,24 +116,21 @@
               </div>
               <div class="modal-body">
                 <div class="form-group">
-                  <label class="col-form-label col-form-label-lg" 
-                    for="inputLarge">Food</label>
+                  <label class="col-form-label col-form-label-lg">Food</label>
                   <input class="form-control form-control-lg" 
                     type="text"
                     value="modal.edit.food"
                     v-model="modal.edit.food">
                 </div>
                 <div class="form-group">
-                  <label class="col-form-label col-form-label-lg" 
-                    for="inputLarge">Ingradients</label>
+                  <label class="col-form-label col-form-label-lg">Ingradients</label>
                   <input class="form-control form-control-lg" 
                     type="text"
                     value="modal.edit.ingradients"
                     v-model="modal.edit.ingradients">
                 </div>
                 <div class="form-group">
-                  <label class="col-form-label col-form-label-lg" 
-                    for="inputLarge">Level</label>
+                  <label class="col-form-label col-form-label-lg">Level</label>
                   <input class="form-control form-control-lg" 
                     type="text"
                     value="modal.edit.level"
@@ -224,10 +147,14 @@
       </div>
     </div>
   </div>
+  <!-- 메인 푸터 -->
+  <div class="footer">
+    <h4>RESFATORING Second Session - REST API Practice</h4>
+    <h5>Frontend : Vue.js + Axios</h5>
+    <h5>Backend : Node.js + Express</h5>
+  </div>
 </div>
 <script>
-  var _axios = axios;
-
   var vm = new Vue({
     el: '#app',
     data: function () {
@@ -253,7 +180,7 @@
     },
     mounted: function () {
       var _this = this 
-      _axios.get('/recipes')
+      axios.get('/recipes')
       .then(function (response) {
         _this.recipes = response.data
       })
@@ -266,7 +193,7 @@
       searchRecipe: function () {
         if (this.search.request.trim() === '') return
         var _this = this
-        _axios.get('/recipes/' + _this.search.request)
+        axios.get('/recipes/' + _this.search.request)
         .then(function (response) {
           if (response.data.error) {
             _this.search.response = { food: response.data.error }
@@ -283,7 +210,7 @@
       saveRecipe: function () {
         if ((this.food.trim() === '' || this.ingradients.trim() === '') || this.level.trim() === '') return
         var _this = this
-        _axios.post('/recipes', {
+        axios.post('/recipes', {
           data: {
             food: _this.food,
             ingradients: _this.ingradients,
@@ -321,7 +248,7 @@
         var update_data = this.modal.edit
         if ((update_data.food.trim() === '' || update_data.ingradients.trim() === '') || update_data.level.trim() === '') return
         var _this = this
-        _axios.put('/recipes/' + _this.modal.currentIndex, {
+        axios.put('/recipes/' + _this.modal.currentIndex, {
           data: {
             food: update_data.food,
             ingradients: update_data.ingradients,
@@ -340,7 +267,7 @@
       deleteRecipe: function (data) {
         var index = data.index
         var _this = this
-        _axios.delete('/recipes/' + index)
+        axios.delete('/recipes/' + index)
         .then(function (response) {
           console.log(response.data)
           _this.recipes.splice(index, 1)

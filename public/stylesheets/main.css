@@ -1,0 +1,93 @@
+body {
+  margin: 0; padding: 0;
+  font-family: 'Jua', sans-serif;
+}
+#app {
+  height: auto;
+  background-image: url('../assets/background.jpg');
+}
+.container {
+  position: relative;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+.recipes-create-form {
+  margin-top: 30px;
+
+  box-shadow: 0px 2px 14px #a9a;
+}
+.recipes-read-form {
+  margin-bottom: 30px;
+  padding: 0 10px;
+}
+.page-header {
+  padding: 0 5px;
+}
+.section-header {
+  margin-bottom: 25px;
+}
+.btn-save {
+  display: block;
+  margin-top: 25px;
+}
+.btn-search {
+  margin-left: 20px;
+}
+.form-inline {
+  margin-bottom: 20px;
+}
+.list-group-item {
+  position: relative;
+  margin-top: 0;
+}
+.list-group-item-search {
+  margin-bottom: 50px;
+}
+.item-text {
+  margin: 0;
+  padding: 10px;
+
+  color: #232;
+  font-size: 18px;
+  font-weight: 400;
+}
+.item-update {
+  position: absolute;
+  bottom: 20px; right: 65px;
+
+  font-size: 21px;
+
+  cursor: pointer;
+}
+.item-delete {
+  position: absolute;
+  bottom: 13px; right: 25px;
+
+  font-size: 24px;
+
+  cursor: pointer;
+}
+.highlight {
+  color: #18BC9C;
+  font-weight: 500;
+}
+.modal-container {
+  position: absolute;
+  top: 0; left: 0;
+}
+.modal-show {
+  display: block;
+}
+.footer {
+  margin: 0;
+  padding: 50px 15px;
+
+  background-color: #383b3d;
+  
+  color: #d3d3d3;
+  text-align: center;
+  letter-spacing: 2px;
+}
+.footer > h4:nth-child(1) {
+  margin-bottom: 20px;
+}
