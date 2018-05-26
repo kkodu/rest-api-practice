@@ -39,8 +39,8 @@
 Git Bash를 설치하여 터미널에 아래 명령어들을 입력한다.
 
 ```bash
-git clone
-cd 
+git clone https://github.com/kkodu/rest-api-practice.git
+cd rest-api-practice
 npm install
 node app-restapi.js
 
@@ -91,11 +91,11 @@ server.listen(port, hostname, function () {
 
 출처 - [express 공식 페이지](http://expressjs.com/ko/starter/hello-world.html)
 
-######해당 프로젝트 폴더에서
+###### 해당 프로젝트 폴더에서
 
 - **$ npm install --save express** : express 설치 및 package.json 파일이 의존성 관리
 
-####node app-simple.js
+#### node app-simple.js
 
 ```javascript
 var express = require('express'); // express 모듈 가져오기
@@ -116,7 +116,7 @@ app.listen(3000, function () {
 
 
 
-##REST API 실습을 위한 서버 파일 구성
+## REST API 실습을 위한 서버 파일 구성
 
 자세한 소스코드 설명은 해당 파일에 주석 처리, REST API 개념은 피피티나 구글링 참고
 
@@ -266,7 +266,7 @@ app.delete('/recipes/:food', function (req, res) {
 - 가독성이 좋고 호환성이 뛰어나다.
 - KEY - VALUE 형식으로 구성
 
-모든 레시피 데이터는 JSON 구조로 파일에 저장해 놓는다. 요청된 데이터는 Node.js에 기본 내장되어 있는 파일 입출력 관리 모듈 **' fs '**를 사용해 추가, 조회, 변경, 삭제한다. (데이터베이스를 사용하지 않기 때문에 JSON 파일을 이용했다)
+모든 레시피 데이터는 JSON 구조로 파일에 저장해 놓는다. 요청된 데이터는 Node.js에 기본 내장되어 있는 파일 입출력 관리 모듈 **' fs '** 를 사용해 추가, 조회, 변경, 삭제한다. (데이터베이스를 사용하지 않기 때문에 JSON 파일을 이용했다)
 
 
 
@@ -292,7 +292,7 @@ app.delete('/recipes/:food', function (req, res) {
 
 ## HTML 및 Vue 작성
 
-######HTML 코드는 VUE와 관련된 코드들만 설명
+###### HTML 코드는 VUE와 관련된 코드들만 설명
 
 - **v-model** : 양방향 데이터 바인딩을 가능하게 해준다. HTML 코드 데이터 \<---> VM(뷰모델) 코드 데이터
 - **@keyup.enter** : @는 v-on의 축약어로 이벤트 바인딩을 의미. keyup.enter=" "는 엔터키 입력 시 메서드 실행
