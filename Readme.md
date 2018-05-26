@@ -152,10 +152,10 @@ app.get('/', function (req, res) {
  * res.json() : 클라이언트로 JSON 데이터를 전송한다.
 */
 app.get('/recipes', function (req, res) {
-	fs.readFile(__dirname + '/recipes.json', 'utf8', function (err, data) {
+    fs.readFile(__dirname + '/recipes.json', 'utf8', function (err, data) {
         data = JSON.parse(data)
         res.json(data)
-	})
+    })
 })
 ```
 
@@ -169,9 +169,9 @@ app.get('/recipes', function (req, res) {
  * data.find(callback handler) : 모든 레시피를 하나씩 순회하다 조건과 맞는 레시피 하나를 반환한다.
 */
 app.get('/recipes/:food', function (req, res) {
-	var food = req.params.food
+    var food = req.params.food
 
-	fs.readFile(__dirname + '/recipes.json', 'utf8', function (err, data) {
+    fs.readFile(__dirname + '/recipes.json', 'utf8', function (err, data) {
         data = JSON.parse(data)
         var recipe = data.find(function (rcp) {
             // data의 레시피명과 파라미터로 넘어온 레시피명이 같으면 해당 레시피 반환
@@ -182,7 +182,7 @@ app.get('/recipes/:food', function (req, res) {
         } else {
             res.json(error) // 레시피 없으면 에러 응답
         } 
-	})
+    })
 })
 ```
 
@@ -197,16 +197,16 @@ app.get('/recipes/:food', function (req, res) {
  * fs.writeFile() : 파일을 새로쓴다. 변경된 내용을 파일에 저장한다.
 */
 app.post('/recipes', function (req, res) {
-	var recipe = req.body.data
+    var recipe = req.body.data
 	
-	fs.readFile(__dirname + '/recipes.json', 'utf8', function (err, data) {
+    fs.readFile(__dirname + '/recipes.json', 'utf8', function (err, data) {
         data = JSON.parse(data)
         data.push(recipe)
         var json = JSON.stringify(data)
         fs.writeFile(__dirname + '/recipes.json', json, 'utf8', function (err) {
             res.json(recipe)
         })
-	})
+    })
 })
 ```
 
@@ -218,17 +218,17 @@ app.post('/recipes', function (req, res) {
  * index : 요청 레시피 배열 인덱스(요소 위치)
 */
 app.put('/recipes/:food', function (req, res) {
-	var index = req.params.food // 요청 레시피 번호는 URI를 통해
-	var recipe = req.body.data  // 레시피 변경 데이터는 request body 안에
+    var index = req.params.food // 요청 레시피 번호는 URI를 통해
+    var recipe = req.body.data  // 레시피 변경 데이터는 request body 안에
 	
-	fs.readFile(__dirname + '/recipes.json', 'utf8', function (err, data) {
+    fs.readFile(__dirname + '/recipes.json', 'utf8', function (err, data) {
         data = JSON.parse(data)
         data[index] = recipe // 변경할 레시피 위치에 요청 레시피로 덮어쓰기 한다. (수정 필요)
         var json = JSON.stringify(data)
         fs.writeFile(__dirname + '/recipes.json', json, 'utf8', function (err) {
             res.json(recipe)
         })
-	})
+    })
 })
 ```
 
@@ -241,9 +241,9 @@ app.put('/recipes/:food', function (req, res) {
  * data.splice() : 요청 레시피를 삭제하기 위한 메서드
 */
 app.delete('/recipes/:food', function (req, res) {
-	var index = req.params.food
+    var index = req.params.food
 
-	fs.readFile(__dirname + '/recipes.json', 'utf8', function (err, data) {
+    fs.readFile(__dirname + '/recipes.json', 'utf8', function (err, data) {
         data = JSON.parse(data)
         var recipe = data[index]
         data.splice(index, 1) // 배열의 해당 레시피 위치에서 자신의 데이터 삭제
@@ -251,7 +251,7 @@ app.delete('/recipes/:food', function (req, res) {
         fs.writeFile(__dirname + '/recipes.json', json, 'utf8', function (err) {
             res.json(recipe)
         })
-	})
+    })
 })
 ```
 
