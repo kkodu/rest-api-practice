@@ -129,7 +129,7 @@ app.listen(3000, function () {
 
 
 
-###### 인덱스 페이지 접속 
+#### 인덱스 페이지 접속 
 
 ```javascript
 /* URL 입력창에 localhost:3000으로 접속했을 때
@@ -142,7 +142,7 @@ app.get('/', function (req, res) {
 })
 ```
 
-###### 모든 레시피 조회 (READ)
+#### 모든 레시피 조회 (READ)
 
 ```javascript
 /* HTTP method : GET
@@ -159,7 +159,7 @@ app.get('/recipes', function (req, res) {
 })
 ```
 
-###### 하나의 레시피 조회 (READ)
+#### 하나의 레시피 조회 (READ)
 
 ```javascript
 /* HTTP method : GET
@@ -186,7 +186,7 @@ app.get('/recipes/:food', function (req, res) {
 })
 ```
 
-###### 새로운 레시피 추가 (CREATE)
+#### 새로운 레시피 추가 (CREATE)
 
 ```javascript
 /* HTTP method : POST
@@ -210,7 +210,7 @@ app.post('/recipes', function (req, res) {
 })
 ```
 
-###### 하나의 레시피 수정 (UPDATE)
+#### 하나의 레시피 수정 (UPDATE)
 
 ```javascript
 /* HTTP method : PUT
@@ -232,7 +232,7 @@ app.put('/recipes/:food', function (req, res) {
 })
 ```
 
-###### 하나의 레시피 삭제 (DELETE)
+#### 하나의 레시피 삭제 (DELETE)
 
 ```javascript
 /* HTTP method : DELETE 
@@ -386,7 +386,7 @@ axios.HTTP_METHOD(URI, [DATA])
 
 ## REST API 실습을 위한 클라이언트 코드 작성
 
-###### 모든 레시피 데이터 요청
+#### 모든 레시피 데이터 요청
 
 ```javascript
 /* 모든 레시피 조회
@@ -403,7 +403,7 @@ axios.get('/recipes')
 })
 ```
 
-###### 하나의 레시피 데이터 요청
+#### 하나의 레시피 데이터 요청
 
 ```javascript
 /* 하나의 레시피 조회
@@ -426,7 +426,7 @@ axios.get('/recipes/' + _this.search.request)
 })
 ```
 
-###### 새로운 레시피 추가 요청
+#### 새로운 레시피 추가 요청
 
 ```javascript
 /* 하나의 레시피 추가
@@ -453,7 +453,7 @@ axios.post('/recipes', {
 })
 ```
 
-###### 하나의 레시피 변경 요청
+#### 하나의 레시피 변경 요청
 
 ```javascript
 /* 하나의 레시피 변경
@@ -482,7 +482,7 @@ axios.put('/recipes/' + _this.modal.currentIndex, {
 })
 ```
 
-###### 하나의 레시피 삭제 요청
+#### 하나의 레시피 삭제 요청
 
 ```javascript
 /* 하나의 레시피 삭제
